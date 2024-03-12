@@ -1,0 +1,19 @@
+{
+  "name": "swarm-intelligence",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/schmidtvinicius/swarm-intelligence.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/schmidtvinicius/swarm-intelligence/issues"
+  },
+  "homepage": "https://github.com/schmidtvinicius/swarm-intelligence#readme"
+}
