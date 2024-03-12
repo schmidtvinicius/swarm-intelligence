@@ -1,5 +1,5 @@
 let Scene = {
-	w : 600, h : 600, swarm : [],
+	w : 600, h : 600, swarm : [], iteration_num : 0,
 	neighbours( x ){
 		let r = []
 		for( let p of this.swarm ){
@@ -12,7 +12,8 @@ let Scene = {
 }
 
 class Particle {
-	constructor(){
+	constructor(name){
+		this.name = name;
 		this.pos = createVector( random(0,Scene.w), random(0,Scene.h) )
 		this.dir = p5.Vector.random2D()
 	}
@@ -59,16 +60,45 @@ class Particle {
 
 function setup(){
 	createCanvas( Scene.w, Scene.h )
+	table = new p5.Table();
+
+	table.addColumn('id');
+	table.addColumn('x');
+	table.addColumn('y');
+	table.addColumn('iteration');
+
+	let i = 0;
 	for( let _ of Array(200) ){
-		Scene.swarm.push( new Particle() )
+		Scene.swarm.push( new Particle(i) )
+		i++;
 	}
+
 }
 
 function draw(){
+	// Cancel run
+	if (Scene.iteration_num > 300){
+		saveTable(table, 'exercise_1.csv');
+		noLoop();
+	}
+
 	background( 220 )
 	for( let p of Scene.swarm ){
-		p.step()
+		p.step(Scene.iteration_num)
 		p.draw()
+		console_log_row(p.pos.x, p.pos.y, Scene.iteration_num, p.name)
 	}
+	Scene.iteration_num++;
+}
+
+
+function console_log_row(x,y,iteration,point){
+	// console.log(x + "," + y + "," + iteration + "," + point)
+
+	let newRow = table.addRow();
+	newRow.setNum('id', point);
+	newRow.setNum('x', x);
+	newRow.setNum('y', y);
+	newRow.setNum('iteration', iteration);
 }
 
