@@ -93,8 +93,6 @@ function draw(){
 
 
 function console_log_row(x,y,iteration,point){
-	// console.log(x + "," + y + "," + iteration + "," + point)
-
 	let newRow = table.addRow();
 	newRow.setNum('id', point);
 	newRow.setNum('x', x);
