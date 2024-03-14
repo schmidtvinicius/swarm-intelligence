@@ -9,10 +9,10 @@ function dist(x1, y1, x2, y2) {
 
 let Scene = {
     w: 600, h: 600, swarm: [], iteration_num: 0,
-    neighbours(x) {
+    neighbours(x, interactionRadius) {
         let r = [];
         for (let p of this.swarm) {
-            if (dist(p.pos.x, p.pos.y, x.x, x.y) <= 100) {
+            if (dist(p.pos.x, p.pos.y, x.x, x.y) <= interactionRadius) {
                 r.push(p);
             }
         }
@@ -40,7 +40,7 @@ class Particle {
         ctx.fill();
         ctx.arc(this.pos.x, this.pos.y, 5, 0, Math.PI * 2);
     }
-    step() {
+    step(cohesionFactor, separationFactor) {
         let N = Scene.neighbours(this.pos),
             avg_sin = 0, avg_cos = 0,
             avg_p = { x: 0, y: 0 },
@@ -51,8 +51,8 @@ class Particle {
             if (n != this) {
                 let away = { x: this.pos.x - n.pos.x, y: this.pos.y - n.pos.y };
                 let magSq = away.x * away.x + away.y * away.y;
-                away.x /= magSq;
-                away.y /= magSq;
+                away.x /= magSq * separationFactor;
+                away.y /= magSq * separationFactor;
                 avg_d.x += away.x;
                 avg_d.y += away.y;
             }
@@ -65,7 +65,7 @@ class Particle {
         avg_angle += Math.random() * 0.5 - 0.25;
         this.dir = { x: Math.cos(avg_angle), y: Math.sin(avg_angle) };
         let cohesion = { x: avg_p.x - this.pos.x, y: avg_p.y - this.pos.y };
-        cohesion.x /= 100; cohesion.y /= 100;
+        cohesion.x /= cohesionFactor; cohesion.y /= cohesionFactor;
         this.dir.x += cohesion.x;
         this.dir.y += cohesion.y;
         avg_d.x *= 20; avg_d.y *= 20;
@@ -86,7 +86,7 @@ function console_log_row(table, x, y, iteration, point) {
 }
 
 
-async function simulate() {
+async function simulate(cohesionFactor, separationFactor) {
     const canvas = createCanvas(Scene.w, Scene.h);
     const ctx = canvas.getContext('2d');
     
@@ -100,7 +100,7 @@ async function simulate() {
     while (Scene.iteration_num <= 300) {
         ctx.clearRect(0, 0, Scene.w, Scene.h);
         for (let p of Scene.swarm) {
-            p.step(Scene.iteration_num);
+            p.step(cohesionFactor, separationFactor);
             p.draw(ctx);
             console_log_row(table, p.pos.x, p.pos.y, Scene.iteration_num, p.name);
         }
@@ -112,4 +112,14 @@ async function simulate() {
     console.log('exercise_1.csv saved');
 }
 
-simulate();
+let foundOptimalParameters = false
+const populationSize = 20
+const boidsPerPopulation = 15
+const steps = 300
+const velocity = 4
+const interactionRadius = 100
+let cohesionFactor
+
+while(!foundOptimalParameters){
+    
+}
