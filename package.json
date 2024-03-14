@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/schmidtvinicius/swarm-intelligence/issues"
   },
-  "homepage": "https://github.com/schmidtvinicius/swarm-intelligence#readme"
+  "homepage": "https://github.com/schmidtvinicius/swarm-intelligence#readme",
+  "dependencies": {
+    "canvas": "^2.11.2"
+  }
 }
