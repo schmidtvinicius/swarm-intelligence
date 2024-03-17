@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 from scipy.spatial import distance
 
 # Load the data
-data = pd.read_csv('exercise_1.csv')
+data = pd.read_csv('boids_simulation.csv')
 
 
 # Get velocities
@@ -80,8 +80,10 @@ order_parameter = calculate_order_parameter(data)
 plt.plot(order_parameter)
 plt.xlabel('Iteration')
 plt.ylabel('Order parameter')
+# set y to alwas be between 0 and 1
+plt.ylim(0, 1)
 plt.title('Order parameter over time')
-plt.savefig('order_parameter.png')
+plt.savefig('order_plot/order_parameter.png')
 plt.close()
 
 def calculate_distances(data):
@@ -109,6 +111,8 @@ for i in range(len(all_distances)):
         plt.hist(all_distances[i], bins=50, density=True)
         plt.xlabel('Distance')
         plt.ylabel('Frequency')
+        # set x to alwas be between 0 and 100
+        plt.xlim(0, 100)
         plt.title('Distribution of distances between nearest neighbors in iteration {}'.format(i))
-        plt.savefig('distances_iteration{}.png'.format(i))
+        plt.savefig('distribution_images/distances_iteration{}.png'.format(i))
         plt.close()
